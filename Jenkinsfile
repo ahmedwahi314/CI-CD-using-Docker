@@ -54,11 +54,8 @@ pipeline {
         }
         stage('Build docker image') {
            steps {
-               script {       
-                 def customImage = docker.build("$DOCKER_IMAGE_NAME", "./")
-		 docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
-                 customImage.push("${env.BUILD_NUMBER}")
-                 }                     
+               script {      
+                 def customImage = docker.build("$DOCKER_IMAGE_NAME", "./")                   
            }
         }
 	}
@@ -74,14 +71,15 @@ pipeline {
               sh "docker push $DOCKER_IMAGE_NAME:$DOCKER_TAG"
 			}
 		}
-  	// stage('Publish image to Docker Hub') {       
-   //         steps {
-	  //      script{	   
-   //      	  docker.withRegistry('https://registry.hub.docker.com', 'w_docker') 
-   //        	   customImage.push("webapp:${env.BUILD_NUMBER}")
-   //              }
-   //            }
-	  //   }
+  	 stage('Publish image to Docker Hub') {     
+           steps {
+	      script{	   
+       	           docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
+         	   customImage.push("webapp:${env.BUILD_NUMBER}")
+                 }
+               }
+	   }
+    }
  
     //     stage('Notification') {
     //         steps {
