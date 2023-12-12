@@ -71,11 +71,13 @@ pipeline {
               sh "docker push $DOCKER_IMAGE_NAME:$DOCKER_TAG"
 			}
 		}
-	/* stage('Publish build info') {
-	   steps {
-		jf 'rt build-publish'
-		}
-	} */
+  	stage('Publish image to Docker Hub') {       
+           steps {
+        	docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
+          	sh  'docker push ahmedwahi314/webapp:latest'
+                 }   
+                }
+              }
  
         stage('Notification') {
             steps {
