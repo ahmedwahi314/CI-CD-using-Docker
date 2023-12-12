@@ -87,7 +87,7 @@ pipeline {
     //             status: 'Success'            
     //         }
     //     }
-    // }
+     }
 	post {
           success {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '.', reportFiles: 'report.html', reportName: 'Trivy Scan', reportTitles: 'Trivy Scan', useWrapperFileDirectly: true])
