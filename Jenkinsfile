@@ -14,6 +14,7 @@ pipeline {
 	DOCKER_REGISTRY = 'fisdemo1.jfrog.io'
         DOCKER_REPO = 'fis-demo-dockerhub-docker-local'
         DOCKER_PASSWORD = credentials('JFROG_PASSWORD')
+	DOCKER_PASS = credentials('w_docker_pass')
 	DOCKER_TAG = 'latest'
     }
     stages {    
@@ -74,7 +75,7 @@ pipeline {
 	stage('Push image to Dockerhub') {
 	   steps {
 	       withCredentials([usernameColonPassword(credentialsId: 'w_docker', variable: 'w_docker')]) {
-                sh 'docker login -u ahmedwahi314 -p ${w_docker_pass}'
+                sh "docker login -u ahmedwahi314 -p $DOCKER_PASS"
 	        sh "docker tag $DOCKER_IMAGE_NAME ahmedwahi314/webapp.${BUILD_ID}:$DOCKER_TAG"
                 sh "docker push ahmedwahi314/webapp.${BUILD_ID}:$DOCKER_TAG"
             }
