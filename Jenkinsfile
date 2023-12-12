@@ -16,7 +16,7 @@ pipeline {
         DOCKER_PASSWORD = credentials('JFROG_PASSWORD')
 	DOCKER_TAG = 'latest'
     }
-    stages {     
+    stages {    
         stage('Build maven ') {
             steps { 
                     sh 'pwd'      
