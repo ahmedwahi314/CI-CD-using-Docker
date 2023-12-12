@@ -12,7 +12,7 @@ pipeline {
         WEBHOOK_URL = credentials("webhook_url")
         BUILD_NO = "${env.BUILD_NUMBER}"
 	DOCKER_REGISTRY = 'fisdemo1.jfrog.io'
-        DOCKER_REPO = 'fis-demo-dockerhub-docker-local'
+        DOCKER_REPO = 'fis-demo-dockerhub-docker-remote'
         DOCKER_PASSWORD = credentials('JFROG_PASSWORD')
 	DOCKER_TAG = 'latest'
     }
