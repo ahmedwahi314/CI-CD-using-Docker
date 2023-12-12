@@ -56,6 +56,8 @@ pipeline {
            steps {
                script {         
                  def customImage = docker.build("$DOCKER_IMAGE_NAME", "./")
+		 docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
+                 customImage.push("${env.BUILD_NUMBER}")
                  }                     
            }
         }
