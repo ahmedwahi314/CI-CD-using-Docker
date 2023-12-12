@@ -16,7 +16,7 @@ pipeline {
         DOCKER_PASSWORD = credentials('JFROG_PASSWORD')
 	DOCKER_TAG = 'latest'
     }
-    stages {      
+    stages {     
         stage('Build maven ') {
             steps { 
                     sh 'pwd'      
@@ -54,13 +54,14 @@ pipeline {
         }
         stage('Build docker image') {
            steps {
-               script {         
+               script {       
                  def customImage = docker.build("$DOCKER_IMAGE_NAME", "./")
 		 docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
                  customImage.push("${env.BUILD_NUMBER}")
                  }                     
            }
         }
+	}
 	stage('Trivy Scan') {
             steps {
                sh 'trivy image $DOCKER_IMAGE_NAME  --output report.html || true'
@@ -99,5 +100,5 @@ pipeline {
           failure {
             echo 'Build Failed'
         }
-    }       
+    }      
 }
