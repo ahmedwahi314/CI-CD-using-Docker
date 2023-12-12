@@ -73,9 +73,8 @@ pipeline {
 		}
   	stage('Publish image to Docker Hub') {       
            steps {
-        	docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
-          	sh  'docker push ahmedwahi314/webapp:latest'
-                 }   
+        	docker.withRegistry('https://registry.hub.docker.com', 'w_docker') 
+          	customImage.push("webapp:${env.BUILD_NUMBER}")
                 }
               }
  
