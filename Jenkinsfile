@@ -71,23 +71,23 @@ pipeline {
               sh "docker push $DOCKER_IMAGE_NAME:$DOCKER_TAG"
 			}
 		}
-  	stage('Publish image to Docker Hub') {       
-           steps {
-	       script{	   
-        	  docker.withRegistry('https://registry.hub.docker.com', 'w_docker') 
-          	   customImage.push("webapp:${env.BUILD_NUMBER}")
-                }
-              }
-	    }
+  	// stage('Publish image to Docker Hub') {       
+   //         steps {
+	  //      script{	   
+   //      	  docker.withRegistry('https://registry.hub.docker.com', 'w_docker') 
+   //        	   customImage.push("webapp:${env.BUILD_NUMBER}")
+   //              }
+   //            }
+	  //   }
  
-        stage('Notification') {
-            steps {
-                office365ConnectorSend webhookUrl: '$WEBHOOK_URL',
-                message: 'build is success',
-                status: 'Success'            
-            }
-        }
-    }
+    //     stage('Notification') {
+    //         steps {
+    //             office365ConnectorSend webhookUrl: '$WEBHOOK_URL',
+    //             message: 'build is success',
+    //             status: 'Success'            
+    //         }
+    //     }
+    // }
 	post {
           success {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '.', reportFiles: 'report.html', reportName: 'Trivy Scan', reportTitles: 'Trivy Scan', useWrapperFileDirectly: true])
