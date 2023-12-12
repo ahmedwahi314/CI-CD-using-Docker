@@ -71,15 +71,15 @@ pipeline {
               sh "docker push $DOCKER_IMAGE_NAME:$DOCKER_TAG"
 			}
 		}
-  	 stage('Publish image to Docker Hub') {     
-           steps {
-	      script{	   
-       	           docker.withRegistry('https://registry.hub.docker.com', 'w_docker') {
-         	   customImage.push("webapp:${env.BUILD_NUMBER}")
-                 }
-               }
-	   }
-    }
+	stage('Push image to Dockerhub') {
+	   steps {
+	       withCredentials([usernameColonPassword(credentialsId: 'w_docker', variable: 'w_docker')]) {
+                sh 'docker login -u ahmedwahi314 -p ${w_docker_pass}'
+	        sh "docker tag $DOCKER_IMAGE_NAME ahmedwahi314/webapp.${BUILD_ID}:$DOCKER_TAG"
+                sh "docker push ahmedwahi314/webapp.${BUILD_ID}:$DOCKER_TAG"
+            }
+		}
+	}
  
     //     stage('Notification') {
     //         steps {
